@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="nmct.ba.cashlessproject.ui.verenigingmanagment.View.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Account:" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="Wachtwoord:" Grid.Row="1" Grid.Column="0"/>
+        <TextBox Name="txtAccount" Grid.Row="0" Grid.Column="1" Margin="10" Height="20"/>
+        <PasswordBox Name="txtWachtwoord" Grid.Row="1" Grid.Column="1" Margin="10" Height="20"/>
+        <TextBlock Name="txbVergeten" Text="Wachtwoord vergeten?" Grid.Row="2" Grid.Column="1"/>
+        <Button Name="btnAanmelden" Content="Aanmelden" Grid.Row="3" Grid.Column="1" Margin="10"/>
+    </Grid>
+</UserControl>
