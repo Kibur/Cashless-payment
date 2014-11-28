@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:LoginVM/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -15,12 +19,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Account:" Grid.Row="0" Grid.Column="0"/>
         <TextBlock Text="Wachtwoord:" Grid.Row="1" Grid.Column="0"/>
-        <TextBox Name="txtAccount" Grid.Row="0" Grid.Column="1" Margin="10" Height="20"/>
-        <PasswordBox Name="txtWachtwoord" Grid.Row="1" Grid.Column="1" Margin="10" Height="20"/>
+        <TextBox Name="txtAccount" Grid.Row="0" Grid.Column="1" Margin="10" Height="20" Text="{Binding Username}"/>
+        <TextBox Name="txtWachtwoord" Grid.Row="1" Grid.Column="1" Margin="10" Height="20" Text="{Binding Password}"/>
         <TextBlock Name="txbVergeten" Text="Wachtwoord vergeten?" Grid.Row="2" Grid.Column="1"/>
-        <Button Name="btnAanmelden" Content="Aanmelden" Grid.Row="3" Grid.Column="1" Margin="10"/>
+        <TextBlock Foreground="Red" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Error}"/>
+        <Button Name="btnAanmelden" Content="Aanmelden" Grid.Row="4" Grid.Column="1" Margin="10" Command="{Binding LoginCommand}"/>
     </Grid>
 </UserControl>
