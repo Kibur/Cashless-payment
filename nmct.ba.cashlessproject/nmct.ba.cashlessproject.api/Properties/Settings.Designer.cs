@@ -27,9 +27,9 @@ namespace nmct.ba.cashlessproject.api.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=0x0df01d4b-PC;Initial Catalog=ITBedrijf;Integrated Security=True")]
-        public string Setting {
+        public string AdminDB {
             get {
-                return ((string)(this["Setting"]));
+                return ((string)(this["AdminDB"]));
             }
         }
     }
