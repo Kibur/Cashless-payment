@@ -17,7 +17,6 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
         public ApplicationVM()
         {
             Pages.Add(new LoginVM());
-            //Pages.Add(new IndexVM());
 
             CurrentPage = Pages[0];
         }

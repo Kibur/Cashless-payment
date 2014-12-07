@@ -12,9 +12,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.3*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -25,9 +25,9 @@
         <TextBlock Text="Ingelogd als ..." Grid.Row="0" Grid.Column="0"/>
         <TextBlock Name="txbAfmelden" Text="Afmelden" Grid.Row="1" Grid.Column="0"/>
         <TextBlock Text="Vereniging Management" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Name="btnAccountbeheer" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10"/>
-        <Line Height="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Fill="Black"/>
-        <Button Name="btnTerug" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10"/>
+        <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>
+        <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10"/>
         <TextBlock Text="Statistiekenbeheer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
         <RadioButton Name="rbTotaleVerkoop" IsChecked="True" Grid.Row="4" Grid.Column="0" Content="Totale verkoop"/>
         <RadioButton Name="rbVerkoop" IsChecked="false" Grid.Row="4" Grid.Column="2" Content="Verkoop (periode instellen)"/>

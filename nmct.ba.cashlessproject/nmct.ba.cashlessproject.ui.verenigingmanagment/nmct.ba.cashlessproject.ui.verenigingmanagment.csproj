@@ -84,8 +84,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Cryptography.cs" />
+    <Compile Include="ViewModel\AccountbeheerVM.cs" />
+    <Compile Include="ViewModel\KassabeheerVM.cs" />
+    <Compile Include="ViewModel\KlantenbeheerVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\IndexVM.cs" />
+    <Compile Include="ViewModel\MedewerkersbeheerVM.cs" />
+    <Compile Include="ViewModel\ProductbeheerVM.cs" />
+    <Compile Include="ViewModel\StatistiekbeheerVM.cs" />
     <Compile Include="View\Accountbeheer.xaml.cs">
       <DependentUpon>Accountbeheer.xaml</DependentUpon>
     </Compile>

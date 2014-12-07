@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.View"
         xmlns:vm="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="425" Width="578">
     <Window.DataContext>
         <vm:ApplicationVM/>
     </Window.DataContext>
@@ -13,6 +13,24 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:IndexVM}">
             <v:Index/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AccountbeheerVM}">
+            <v:Accountbeheer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProductbeheerVM}">
+            <v:Productbeheer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MedewerkersbeheerVM}">
+            <v:Medewerkersbeheer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KlantenbeheerVM}">
+            <v:Klantenbeheer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:KassabeheerVM}">
+            <v:Kassabeheer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StatistiekbeheerVM}">
+            <v:Statistiekenbeheer/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
