@@ -18,13 +18,13 @@ namespace nmct.ba.cashlessproject.api.Models
             string dbpass = claims.FirstOrDefault(c => c.Type == "dbpass").Value;
             string dbname = claims.FirstOrDefault(c => c.Type == "dbname").Value;
 
-            return Database.CreateConnectionString("System.Data.SqlClient", @"0x0df01d4b-PC\ITbedrijf", Cryptography.Decrypt(dbname), Cryptography.Decrypt(dblogin), Cryptography.Decrypt(dbpass));
+            return Database.CreateConnectionString("System.Data.SqlClient", @"0x0df01d4b-PC", Cryptography.Decrypt(dbname), Cryptography.Decrypt(dblogin), Cryptography.Decrypt(dbpass));
         }
 
         public static List<Customer> GetCustomers(IEnumerable<Claim> claims)
         {
             List<Customer> list = new List<Customer>();
-            string sql = "SELECT * FROM Customer";
+            string sql = "SELECT * FROM Customers";
             DbDataReader reader = Database.GetData(Database.GetConnection(CreateConnectionString(claims)), sql);
             while (reader.Read())
             {
@@ -46,7 +46,7 @@ namespace nmct.ba.cashlessproject.api.Models
 
         public static int InsertCustomer(Customer c, IEnumerable<Claim> claims)
         {
-            string sql = "INSERT INTO Customer VALUES(@CustomerName,@Address,@Picture,@Balance)";
+            string sql = "INSERT INTO Customers VALUES(@CustomerName,@Address,@Picture,@Balance)";
             DbParameter par1 = Database.AddParameter("AdminDB", "@CustomerName", c.CustomerName);
             DbParameter par2 = Database.AddParameter("AdminDB", "@Address", c.Address);
             DbParameter par3 = Database.AddParameter("AdminDB", "@Picture", c.Picture);
@@ -56,7 +56,7 @@ namespace nmct.ba.cashlessproject.api.Models
 
         public static void UpdateCustomer(Customer c, IEnumerable<Claim> claims)
         {
-            string sql = "UPDATE Customer SET CustomerName=@CustomerName, Address=@Address, Picture=@Picture, Balance=@Balance WHERE ID=@ID";
+            string sql = "UPDATE Customers SET CustomerName=@CustomerName, Address=@Address, Picture=@Picture, Balance=@Balance WHERE ID=@ID";
             DbParameter par1 = Database.AddParameter("AdminDB", "@CustomerName", c.CustomerName);
             DbParameter par2 = Database.AddParameter("AdminDB", "@Address", c.Address);
             DbParameter par3 = Database.AddParameter("AdminDB", "@Picture", c.Picture);
@@ -67,7 +67,7 @@ namespace nmct.ba.cashlessproject.api.Models
 
         public static void DeleteCustomer(int id, IEnumerable<Claim> claims)
         {
-            string sql = "DELETE FROM Customer WHERE ID=@ID";
+            string sql = "DELETE FROM Customers WHERE ID=@ID";
             DbParameter par1 = Database.AddParameter("AdminDB", "@ID", id);
             DbConnection con = Database.GetConnection(CreateConnectionString(claims));
             Database.ModifyData(con, sql, par1);

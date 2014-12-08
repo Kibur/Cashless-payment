@@ -34,22 +34,22 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnToevoegen" Grid.Column="0" Content="T" Height="20" Width="20"/>
-            <Button Name="btnWijzigen" Grid.Column="1" Content="W" Height="20" Width="20"/>
+            <Button Name="btnToevoegen" Command="{Binding NewProductCommand}" Grid.Column="0" Content="T" Height="20" Width="20"/>
+            <Button Name="btnWijzigen" Command="{Binding EditProductCommand}" Grid.Column="1" Content="W" Height="20" Width="20"/>
         </Grid>
         <TextBox Name="txtZoeken" Height="20" Grid.Row="5" Grid.Column="0" Margin="10"/>
-        <ListBox Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
+        <ListBox ItemsSource="{Binding Products}" DisplayMemberPath="ProductName" SelectedItem="{Binding SelectedProduct}" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
         <TextBlock Text="Naam:" Grid.Row="5" Grid.Column="1"/>
-        <TextBox Name="txtProductNaam" Height="20" Margin="10" Grid.Row="5" Grid.Column="2"/>
+        <TextBox Name="txtProductNaam" Text="{Binding SelectedProduct.ProductName}" Height="20" Margin="10" Grid.Row="5" Grid.Column="2"/>
         <TextBlock Text="Prijs:" Grid.Row="6" Grid.Column="1"/>
-        <TextBox Name="txtProductPrijs" Height="20" Margin="10" Grid.Row="6" Grid.Column="2"/>
+        <TextBox Name="txtProductPrijs" Text="{Binding SelectedProduct.Price}" Height="20" Margin="10" Grid.Row="6" Grid.Column="2"/>
         <Grid Grid.Row="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnVerwijderen" Grid.Column="0" Content="V" Height="20" Width="20"/>
-            <Button Name="btnOpslaan" Grid.Column="1" Content="O" Height="20" Width="20"/>
+            <Button Name="btnVerwijderen" Command="{Binding DeleteProductCommand}" Grid.Column="0" Content="V" Height="20" Width="20"/>
+            <Button Name="btnOpslaan" Command="{Binding SaveProductCommand}" Grid.Column="1" Content="O" Height="20" Width="20"/>
         </Grid>
     </Grid>
 </UserControl>
