@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Name="btnToevoegen" Command="{Binding NewProductCommand}" Grid.Column="0" Content="T" Height="20" Width="20"/>
-            <Button Name="btnWijzigen" Command="{Binding EditProductCommand}" Grid.Column="1" Content="W" Height="20" Width="20"/>
+            <Button Name="btnWijzigen" Grid.Column="1" Content="W" Height="20" Width="20"/>
         </Grid>
         <TextBox Name="txtZoeken" Height="20" Grid.Row="5" Grid.Column="0" Margin="10"/>
         <ListBox ItemsSource="{Binding Products}" DisplayMemberPath="ProductName" SelectedItem="{Binding SelectedProduct}" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>

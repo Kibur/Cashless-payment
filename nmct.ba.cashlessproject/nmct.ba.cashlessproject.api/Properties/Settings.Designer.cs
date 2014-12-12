@@ -32,5 +32,15 @@ namespace nmct.ba.cashlessproject.api.Properties {
                 return ((string)(this["AdminDB"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=0x0df01d4b-PC;Initial Catalog=Klant;Integrated Security=True")]
+        public string KlantDB {
+            get {
+                return ((string)(this["KlantDB"]));
+            }
+        }
     }
 }

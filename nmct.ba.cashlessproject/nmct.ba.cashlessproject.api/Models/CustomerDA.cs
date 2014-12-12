@@ -12,20 +12,20 @@ namespace nmct.ba.cashlessproject.api.Models
 {
     public class CustomerDA
     {
-        private static ConnectionStringSettings CreateConnectionString(IEnumerable<Claim> claims)
+        /*private static ConnectionStringSettings CreateConnectionString(IEnumerable<Claim> claims)
         {
             string dblogin = claims.FirstOrDefault(c => c.Type == "dblogin").Value;
             string dbpass = claims.FirstOrDefault(c => c.Type == "dbpass").Value;
             string dbname = claims.FirstOrDefault(c => c.Type == "dbname").Value;
 
             return Database.CreateConnectionString("System.Data.SqlClient", @"0x0df01d4b-PC", Cryptography.Decrypt(dbname), Cryptography.Decrypt(dblogin), Cryptography.Decrypt(dbpass));
-        }
+        }*/
 
         public static List<Customer> GetCustomers(IEnumerable<Claim> claims)
         {
             List<Customer> list = new List<Customer>();
             string sql = "SELECT * FROM Customers";
-            DbDataReader reader = Database.GetData(Database.GetConnection(CreateConnectionString(claims)), sql);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql);
             while (reader.Read())
             {
                 Customer c = new Customer();
@@ -51,7 +51,7 @@ namespace nmct.ba.cashlessproject.api.Models
             DbParameter par2 = Database.AddParameter("AdminDB", "@Address", c.Address);
             DbParameter par3 = Database.AddParameter("AdminDB", "@Picture", c.Picture);
             DbParameter par4 = Database.AddParameter("AdminDB", "@Balance", c.Balance);
-            return Database.InsertData(Database.GetConnection(CreateConnectionString(claims)), sql, par1, par2, par3, par4);
+            return Database.InsertData(Database.GetConnection("KlantDB"), sql, par1, par2, par3, par4);
         }
 
         public static void UpdateCustomer(Customer c, IEnumerable<Claim> claims)
@@ -62,14 +62,14 @@ namespace nmct.ba.cashlessproject.api.Models
             DbParameter par3 = Database.AddParameter("AdminDB", "@Picture", c.Picture);
             DbParameter par4 = Database.AddParameter("AdminDB", "@Balance", c.Balance);
             DbParameter par5 = Database.AddParameter("AdminDB", "@ID", c.ID);
-            Database.ModifyData(Database.GetConnection(CreateConnectionString(claims)), sql, par1, par2, par3, par4, par5);
+            Database.ModifyData(Database.GetConnection("KlantDB"), sql, par1, par2, par3, par4, par5);
         }
 
         public static void DeleteCustomer(int id, IEnumerable<Claim> claims)
         {
             string sql = "DELETE FROM Customers WHERE ID=@ID";
             DbParameter par1 = Database.AddParameter("AdminDB", "@ID", id);
-            DbConnection con = Database.GetConnection(CreateConnectionString(claims));
+            DbConnection con = Database.GetConnection("KlantDB");
             Database.ModifyData(con, sql, par1);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using Newtonsoft.Json;
+using nmct.ba.cashlessproject.model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,33 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public IndexVM()
         {
-            
+            if (ApplicationVM.token != null)
+            {
+                GetRegisters();
+            }
+        }
+
+        private ObservableCollection<Register> _registers;
+
+        public ObservableCollection<Register> Registers
+        {
+            get { return _registers; }
+            set { _registers = value; OnPropertyChanged("Registers"); }
+        }
+
+        private async void GetRegisters()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.SetBearerToken(ApplicationVM.token.AccessToken);
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/register");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    Registers = JsonConvert.DeserializeObject<ObservableCollection<Register>>(json);
+                }
+            }
         }
 
         public ICommand AccountbeheerCommand

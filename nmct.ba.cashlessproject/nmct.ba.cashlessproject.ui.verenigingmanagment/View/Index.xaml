@@ -29,7 +29,7 @@
         <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>
         <TextBlock Text="Menu" Grid.Row="3" Grid.Column="0"/>
         <TextBlock Text="Kassa's" Grid.Row="3" Grid.Column="2"/>
-        <ListBox Name="lstKassas" Grid.Row="4" Grid.Column="2" Grid.RowSpan="3" Margin="5"/>
+        <ListBox ItemsSource="{Binding Registers}" DisplayMemberPath="RegisterName" Name="lstKassas" Grid.Row="4" Grid.Column="2" Grid.RowSpan="3" Margin="5"/>
         <Button Name="btnProductbeheer" Command="{Binding ProductbeheerCommand}" Content="Productbeheer" Grid.Row="4" Grid.Column="0" Margin="10"/>
         <Button Name="btnMedewerkersbeheer" Command="{Binding MedewerkersbeheerCommand}" Content="Medewerkersbeheer" Grid.Row="4" Grid.Column="1" Margin="10"/>
         <Button Name="btnKlantenbeheer" Command="{Binding KlantenbeheerCommand}" Content="Klantenbeheer" Grid.Row="5" Grid.Column="0" Margin="10"/>

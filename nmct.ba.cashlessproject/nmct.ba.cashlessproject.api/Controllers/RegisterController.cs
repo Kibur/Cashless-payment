@@ -11,18 +11,18 @@ using System.Web.Http;
 namespace nmct.ba.cashlessproject.api.Controllers
 {
     [Authorize]
-    public class ProductController : ApiController
+    public class RegisterController : ApiController
     {
-        public List<Product> Get()
+        public List<Register> Get()
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
-            return ProductDA.GetProducts(cp.Claims);
+            return RegisterDA.GetRegisters(cp.Claims);
         }
 
-        public HttpResponseMessage Post(Product p)
+        public HttpResponseMessage Post(Register r)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
-            int id = ProductDA.InsertProduct(p, cp.Claims);
+            int id = RegisterDA.InsertRegister(r, cp.Claims);
 
             HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
             message.Content = new StringContent(id.ToString());
@@ -30,10 +30,10 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return message;
         }
 
-        public HttpResponseMessage Put(Product p)
+        public HttpResponseMessage Put(Register r)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
-            ProductDA.UpdateProduct(p, cp.Claims);
+            RegisterDA.UpdateRegister(r, cp.Claims);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
@@ -41,7 +41,7 @@ namespace nmct.ba.cashlessproject.api.Controllers
         public HttpResponseMessage Delete(int id)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
-            ProductDA.DeleteProduct(id, cp.Claims);
+            RegisterDA.DeleteRegister(id, cp.Claims);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

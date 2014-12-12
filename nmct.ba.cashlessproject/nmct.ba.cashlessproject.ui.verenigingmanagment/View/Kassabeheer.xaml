@@ -30,25 +30,9 @@
         <TextBlock Text="Kassabeheer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBlock Text="Kassa's" Grid.Row="4" Grid.Column="0"/>
         <TextBlock Text="Bemaning" Grid.Row="4" Grid.Column="1"/>
-        <TextBlock Text="Details bemanning" Grid.Row="4" Grid.Column="2"/>
         <TextBox Name="txtZoekKassa" Grid.Row="5" Grid.Column="0" Margin="10" Height="20"/>
         <TextBox Name="txtZoekBemaning" Grid.Row="5" Grid.Column="1" Margin="10" Height="20"/>
-        <ListBox Name="lstKassa" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
-        <ListBox Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2"/>
-        <Grid Grid.Row="6" Grid.Column="2" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Vorige:" Grid.Row="0" Grid.Column="0"/>
-            <TextBox Name="txtVorige" Grid.Row="0" Grid.Column="1" Margin="10" Height="20"/>
-            <TextBlock Text="Huidige:" Grid.Row="1" Grid.Column="0"/>
-            <TextBox Name="txtHuidige" Grid.Row="1" Grid.Column="1" Margin="10" Height="20"/>
-
-        </Grid>
+        <ListBox ItemsSource="{Binding Registers}" DisplayMemberPath="RegisterName" SelectedItem="{Binding SelectedRegister}" Name="lstKassa" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
+        <ListBox ItemsSource="{Binding SelectedRegister.Employees}" DisplayMemberPath="EmployeeName" Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
