@@ -34,6 +34,14 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return _registers; }
             set { _registers = value; OnPropertyChanged("Registers"); }
         }
+
+        private ObservableCollection<Employee> _employees;
+
+        public ObservableCollection<Employee> Employees
+        {
+            get { return _employees; }
+            set { _employees = value; OnPropertyChanged("Employees"); }
+        }
         
 
         private Register _selected;
@@ -61,39 +69,15 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         private async void GetEmployeesByRegister()
         {
-            string input = JsonConvert.SerializeObject(SelectedRegister);
-
-            if (SelectedRegister.ID == 0)
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    client.SetBearerToken(ApplicationVM.token.AccessToken);
-                    HttpResponseMessage response = await client.PostAsync("http://localhost:23339/api/employee",
-                        new StringContent(input, Encoding.UTF8, "application/json"));
+                client.SetBearerToken(ApplicationVM.token.AccessToken);
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/employee/" + SelectedRegister.ID);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string json = await response.Content.ReadAsStringAsync();
-                        SelectedRegister.Employees = JsonConvert.DeserializeObject<ObservableCollection<Employee>>(json);
-                    }
-                    else
-                    {
-                        Console.WriteLine("GetEmployeesByRegister Error");
-                    }
-                }
-            }
-            else
-            {
-                using (HttpClient client = new HttpClient())
+                if (response.IsSuccessStatusCode)
                 {
-                    client.SetBearerToken(ApplicationVM.token.AccessToken);
-                    HttpResponseMessage response = await client.PostAsync("http://localhost:23339/api/employee",
-                        new StringContent(input, Encoding.UTF8, "application/json"));
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine("GetEmployeesByRegister Error");
-                    }
+                    string json = await response.Content.ReadAsStringAsync();
+                    Employees = JsonConvert.DeserializeObject<ObservableCollection<Employee>>(json);
                 }
             }
         }
@@ -123,6 +107,16 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
 
             appvm.ChangePage(new AccountbeheerVM());
+        }
+
+        public ICommand GetEmployeesCommand
+        {
+            get { return new RelayCommand(GetEmployees); }
+        }
+
+        public void GetEmployees()
+        {
+            GetEmployeesByRegister();
         }
     }
 }

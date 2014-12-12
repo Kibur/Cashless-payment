@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,7 +34,13 @@
         <TextBlock Text="Bemaning" Grid.Row="4" Grid.Column="1"/>
         <TextBox Name="txtZoekKassa" Grid.Row="5" Grid.Column="0" Margin="10" Height="20"/>
         <TextBox Name="txtZoekBemaning" Grid.Row="5" Grid.Column="1" Margin="10" Height="20"/>
-        <ListBox ItemsSource="{Binding Registers}" DisplayMemberPath="RegisterName" SelectedItem="{Binding SelectedRegister}" Name="lstKassa" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
-        <ListBox ItemsSource="{Binding SelectedRegister.Employees}" DisplayMemberPath="EmployeeName" Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2"/>
+        <ListBox ItemsSource="{Binding Registers}" SelectedItem="{Binding SelectedRegister}" Name="lstKassa" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <cmd:EventToCommand Command="{Binding GetEmployeesCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+        <ListBox ItemsSource="{Binding Employees}" DisplayMemberPath="EmployeeName" Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

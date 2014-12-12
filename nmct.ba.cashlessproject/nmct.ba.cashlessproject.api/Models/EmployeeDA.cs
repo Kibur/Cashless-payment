@@ -72,17 +72,17 @@ namespace nmct.ba.cashlessproject.api.Models
             Database.ModifyData(con, sql, par1);
         }
 
-        public static List<Employee> GetEmployeesByRegister(Register r, IEnumerable<Claim> claims)
+        public static List<Employee> GetEmployeesByRegister(int rId, IEnumerable<Claim> claims)
         {
             List<Employee> list = new List<Employee>();
             List<int> employeeIDs = new List<int>();
             
-            string sql = "SELECT EmployeeID FROM Register_Employee WHERE RegisterID=@ID";
-            DbParameter par1 = Database.AddParameter("AdminDB", "@ID", r.ID);
+            string sql = "SELECT EmployeeID FROM Register_Employee WHERE RegisterID=@RegisterID";
+            DbParameter par1 = Database.AddParameter("AdminDB", "@RegisterID", rId);
             DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
             while (reader.Read())
             {
-                int employeeID = Convert.ToInt32("EmployeeID");
+                int employeeID = Convert.ToInt32(reader["EmployeeID"]);
 
                 employeeIDs.Add(employeeID);
             }

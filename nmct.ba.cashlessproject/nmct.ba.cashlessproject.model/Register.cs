@@ -32,18 +32,14 @@ namespace nmct.ba.cashlessproject.model
             set { _device = value; }
         }
 
-        private IEnumerable<Employee> _employees;
-
-        public IEnumerable<Employee> Employees
-        {
-            get { return _employees; }
-            set { _employees = value; }
-        }
-        
-
         public Register()
         {
 
+        }
+
+        public override string ToString()
+        {
+            return RegisterName + " (" + Device + ")";
         }
     }
 }
