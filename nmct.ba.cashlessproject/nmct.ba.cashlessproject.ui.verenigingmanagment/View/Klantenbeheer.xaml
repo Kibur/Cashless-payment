@@ -6,8 +6,7 @@
              xmlns:c="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.View.converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <c:StringToImageConverter x:Key="StringToImageConverter"/>
     </UserControl.Resources>
@@ -23,8 +22,8 @@
             <RowDefinition Height="0.3*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Ingelogd als ..." Grid.Row="0" Grid.Column="0"/>
@@ -40,14 +39,14 @@
         <ListBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" DisplayMemberPath="CustomerName" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
         <Grid Grid.Row="5" Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding SelectedCustomer.Picture, Converter={StaticResource StringToImageConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Stretch="Uniform" Source="{Binding SelectedCustomer.Picture, Converter={StaticResource StringToImageConverter}, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Saldo:" Grid.Row="1" Grid.Column="0"/>
             <TextBox Text="{Binding SelectedCustomer.Balance}" Grid.Row="1" Grid.Column="1" Height="20" Margin="10"/>
         </Grid>

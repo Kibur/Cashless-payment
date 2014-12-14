@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Height="412" Width="342">
+             mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -34,14 +34,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnToevoegen" Grid.Column="0" Content="T" Height="20" Width="20"/>
+            <Button Name="btnToevoegen" Command="{Binding NewEmployeeCommand}" Grid.Column="0" Content="T" Height="20" Width="20"/>
             <Button Name="btnWijzigen" Grid.Column="1" Content="W" Height="20" Width="20"/>
         </Grid>
         <TextBox Name="txtZoeken" Height="20" Grid.Row="5" Grid.Column="0" Margin="10"/>
-        <ListBox Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="3"/>
+        <ListBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" DisplayMemberPath="EmployeeName" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="3"/>
         <Grid Grid.Row="5" Grid.Column="2" Grid.RowSpan="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -52,23 +51,21 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Naam:"/>
-            <TextBox Name="txtMedewerkerNaam" Grid.Row="0" Grid.Column="1" Height="20" Margin="10"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Voornaam:"/>
-            <TextBox Name="txtMedewerkerVoornaam" Grid.Row="1" Grid.Column="1" Height="20" Margin="10"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Geboortedatum:"/>
-            <DatePicker Height="20" Grid.Row="2" Grid.Column="1" Name="dpGeboortedatum" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.EmployeeName}" Name="txtMedewerkerNaam" Grid.Row="0" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Adres:"/>
+            <TextBox Text="{Binding SelectedEmployee.Address}" Name="txtMedewerkerAdres" Grid.Row="1" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:"/>
+            <TextBox Text="{Binding SelectedEmployee.Email}" Name="txtMedewerkerEmail" Grid.Row="2" Grid.Column="1" Height="20" Margin="10"/>
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Telefoon:"/>
-            <TextBox Name="txtMedewerkerTelefoon" Grid.Row="3" Grid.Column="1" Height="20" Margin="10"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Email:"/>
-            <TextBox Name="txtMedewerkerEmail" Grid.Row="4" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.Phone}" Name="txtMedewerkerTelefoon" Grid.Row="3" Grid.Column="1" Height="20" Margin="10"/>
         </Grid>
         <Grid Grid.Row="8" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnVerwijderen" Grid.Column="0" Content="V" Height="20" Width="20"/>
-            <Button Name="btnOpslaan" Grid.Column="1" Content="O" Height="20" Width="20"/>
+            <Button Name="btnVerwijderen" Command="{Binding DeleteEmployeeCommand}" Grid.Column="0" Content="V" Height="20" Width="20"/>
+            <Button Name="btnOpslaan" Command="{Binding SaveEmployeeCommand}" Grid.Column="1" Content="O" Height="20" Width="20"/>
         </Grid>
     </Grid>
 </UserControl>

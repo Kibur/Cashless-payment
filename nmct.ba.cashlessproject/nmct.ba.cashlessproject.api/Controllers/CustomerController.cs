@@ -29,5 +29,13 @@ namespace nmct.ba.cashlessproject.api.Controllers
 
             return message;
         }
+
+        public HttpResponseMessage Put(Customer c)
+        {
+            ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
+            CustomerDA.UpdateCustomer(c, cp.Claims);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
     }
 }
