@@ -15,8 +15,19 @@ namespace nmct.ba.cashlessproject.api.Controllers
     {
         public List<Customer> Get()
         {
-            ClaimsPrincipal p = RequestContext.Principal as ClaimsPrincipal;
-            return CustomerDA.GetCustomers(p.Claims);
+            ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
+            return CustomerDA.GetCustomers(cp.Claims);
+        }
+
+        public HttpResponseMessage Post(Customer c)
+        {
+            ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
+            int id = CustomerDA.InsertCustomer(c, cp.Claims);
+
+            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
+            message.Content = new StringContent(id.ToString());
+
+            return message;
         }
     }
 }

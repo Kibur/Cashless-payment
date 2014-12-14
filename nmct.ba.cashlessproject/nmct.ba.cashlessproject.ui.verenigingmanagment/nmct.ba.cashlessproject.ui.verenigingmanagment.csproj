@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -95,6 +96,7 @@
     <Compile Include="View\Accountbeheer.xaml.cs">
       <DependentUpon>Accountbeheer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\converters\StringToImageConverter.cs" />
     <Compile Include="View\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
@@ -200,7 +202,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\images\add.png" />
+    <Resource Include="View\images\noimage.png" />
+    <Resource Include="View\images\save.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nmct.ba.cashlessproject.model\nmct.ba.cashlessproject.model.csproj">
       <Project>{3c317898-e081-4d3d-88c1-26585a497fd1}</Project>
