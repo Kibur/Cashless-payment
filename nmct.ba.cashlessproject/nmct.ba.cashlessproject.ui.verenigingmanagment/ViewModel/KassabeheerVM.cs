@@ -72,7 +72,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             using (HttpClient client = new HttpClient())
             {
                 client.SetBearerToken(ApplicationVM.token.AccessToken);
-                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/employee/" + SelectedRegister.ID);
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/employee?rID=r" + SelectedRegister.ID);
 
                 if (response.IsSuccessStatusCode)
                 {

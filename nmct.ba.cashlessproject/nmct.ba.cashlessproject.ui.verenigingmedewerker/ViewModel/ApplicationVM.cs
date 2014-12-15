@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Thinktecture.IdentityModel.Client;
 
 namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
 {
@@ -13,8 +14,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
     {
         public ApplicationVM()
         {
-            Pages.Add(new PageOneVM());
-            // Add other pages
+            Pages.Add(new LoginVM());
 
             CurrentPage = Pages[0];
         }
@@ -42,7 +42,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             get { return new RelayCommand<IPage>(ChangePage); }
         }
 
-        private void ChangePage(IPage page)
+        public void ChangePage(IPage page)
         {
             CurrentPage = page;
         }

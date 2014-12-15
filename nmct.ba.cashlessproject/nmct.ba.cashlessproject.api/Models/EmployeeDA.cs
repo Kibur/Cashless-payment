@@ -112,5 +112,25 @@ namespace nmct.ba.cashlessproject.api.Models
 
             return list;
         }
+
+        public static Employee GetEmployeeById(int id)
+        {
+            Employee e = new Employee();
+
+            string sql = "SELECT * FROM Employee WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("AdminDB", "@ID", id);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            while (reader.Read())
+            {
+                e.ID = Convert.ToInt32(reader["ID"]);
+                e.EmployeeName = reader["EmployeeName"].ToString();
+                e.Address = reader["Address"].ToString();
+                e.Email = reader["Email"].ToString();
+                e.Phone = reader["Phone"].ToString();
+            }
+
+            return e;
+        }
     }
 }

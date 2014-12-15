@@ -8,8 +8,11 @@
         <vm:ApplicationVM/>
     </Window.DataContext>
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vm:PageOneVM}">
-            <v:PageOne/>
+        <DataTemplate DataType="{x:Type vm:LoginVM}">
+            <v:Login/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:IndexVM}">
+            <v:Index/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

@@ -10,8 +10,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,10 +18,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Saldo:" Grid.Row="0" Grid.Column="0"/>
         <TextBox Name="txtSaldo" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Height="20" IsReadOnly="True"/>
-        <TextBlock Text="Opgenomen biljetten: 5, 10 en 20 euro" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBlock Text="Opladen!" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Text="(max. 100 euro)" Grid.Row="2" Grid.Column="2"/>
-        <ProgressBar Name="pbLaden" Height="30" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" Value="30"/>
-        <Button Name="btnVoltooien" Content="Voltooien" Margin="10" Height="30" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Text="Opgenomen biljetten: 5, 10 en 20 euro (max 100 opladen)" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <Button Name="btnVoltooien" Content="Voltooien" Margin="10" Height="30" Grid.Row="2" Grid.Column="1"/>
     </Grid>
 </UserControl>

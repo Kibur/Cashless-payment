@@ -19,8 +19,16 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return EmployeeDA.GetEmployees(cp.Claims);
         }
 
-        public List<Employee> Get(int id)
+        [AllowAnonymous]
+        public Employee Get(int id)
         {
+            return EmployeeDA.GetEmployeeById(id);
+        }
+
+        public List<Employee> Get(string rID)
+        {
+            int id = Convert.ToInt32(rID.Substring(1, rID.Length - 1));
+
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
             return EmployeeDA.GetEmployeesByRegister(id, cp.Claims);
         }

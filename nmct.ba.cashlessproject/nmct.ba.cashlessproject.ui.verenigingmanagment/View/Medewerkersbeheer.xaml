@@ -28,7 +28,7 @@
         <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>
         <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10"/>
         <TextBlock Text="Medewerkersbeheer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBlock Text="Producten" Grid.Row="4" Grid.Column="0"/>
+        <TextBlock Text="Medewerkers" Grid.Row="4" Grid.Column="0"/>
         <Grid Grid.Row="4" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
