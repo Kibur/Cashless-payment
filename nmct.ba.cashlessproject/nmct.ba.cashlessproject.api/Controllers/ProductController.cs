@@ -13,6 +13,7 @@ namespace nmct.ba.cashlessproject.api.Controllers
     [Authorize]
     public class ProductController : ApiController
     {
+        [AllowAnonymous]
         public List<Product> Get()
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;

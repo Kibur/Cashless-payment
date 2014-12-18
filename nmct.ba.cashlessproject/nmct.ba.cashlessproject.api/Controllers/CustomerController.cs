@@ -19,6 +19,14 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return CustomerDA.GetCustomers(cp.Claims);
         }
 
+        [AllowAnonymous]
+        public Customer Get(string value)
+        {
+            string name = value.Split('=')[1];
+
+            return CustomerDA.GetCustomerByName(name);
+        }
+
         public HttpResponseMessage Post(Customer c)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;

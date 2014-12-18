@@ -72,5 +72,28 @@ namespace nmct.ba.cashlessproject.api.Models
             DbConnection con = Database.GetConnection("KlantDB");
             Database.ModifyData(con, sql, par1);
         }
+
+        public static Customer GetCustomerByName(string name)
+        {
+            Customer c = new Customer();
+
+            string sql = "SELECT * FROM Customers WHERE CustomerName like @CustomerName";
+            DbParameter par1 = Database.AddParameter("AdminDB", "@CustomerName", name);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            while (reader.Read())
+            {
+                c.ID = Convert.ToInt32(reader["ID"]);
+                c.CustomerName = reader["CustomerName"].ToString();
+                c.Address = reader["Address"].ToString();
+                if (!DBNull.Value.Equals(reader["Picture"]))
+                    c.Picture = (byte[])reader["Picture"];
+                else
+                    c.Picture = new byte[0];
+                c.Balance = Double.Parse(reader["Balance"].ToString());
+            }
+
+            return c;
+        }
     }
 }
