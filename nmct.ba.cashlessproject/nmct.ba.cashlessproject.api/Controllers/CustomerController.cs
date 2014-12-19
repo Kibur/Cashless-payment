@@ -22,9 +22,7 @@ namespace nmct.ba.cashlessproject.api.Controllers
         [AllowAnonymous]
         public Customer Get(string value)
         {
-            string name = value.Split('=')[1];
-
-            return CustomerDA.GetCustomerByName(name);
+            return CustomerDA.GetCustomerByName(value);
         }
 
         public HttpResponseMessage Post(Customer c)

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using Newtonsoft.Json;
 using nmct.ba.cashlessproject.model;
+using nmct.ba.cashlessproject.ui.verenigingmedewerker.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,14 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             set { _products = value; OnPropertyChanged("Products"); }
         }
 
+        private Product _selected;
+
+        public Product SelectedProduct
+        {
+            get { return _selected; }
+            set { _selected = value; OnPropertyChanged("SelectedProduct"); }
+        }
+
         private Customer _customer;
 
         public Customer Customer
@@ -34,6 +43,31 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             get { return _customer; }
             set { _customer = value; OnPropertyChanged("Customer"); }
         }
+
+        private string _customerName;
+
+        public string CustomerName
+        {
+            get { return _customerName; }
+            set { _customerName = value; OnPropertyChanged("CustomerName"); }
+        }
+
+        private ObservableCollection<Bestelling> _bestelling;
+
+        public ObservableCollection<Bestelling> Bestelling
+        {
+            get { return _bestelling; }
+            set { _bestelling = value; OnPropertyChanged("Bestelling"); }
+        }
+
+        private int _counter;
+
+        public int Counter
+        {
+            get { return _counter; }
+            set { _counter = value; OnPropertyChanged("Counter"); }
+        }
+        
 
         public IndexVM()
         {
@@ -58,7 +92,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         {
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/customer?v=" + Customer.CustomerName);
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/customer?value=" + CustomerName.ToLower());
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -76,6 +110,32 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         public void GetCustomer()
         {
             GetCustomerByName();
+        }
+
+        public ICommand AddProductCommand
+        {
+            get { return new RelayCommand(AddProduct); }
+        }
+
+        public void AddProduct()
+        {
+            Counter++;
+
+            Bestelling b = new Bestelling();
+            b.Product = SelectedProduct;
+            b.Counter = Counter;
+
+            Bestelling.Add(b);
+        }
+
+        public ICommand VerlaagAantalCommand
+        {
+            get { return new RelayCommand(VerlaagAantal); }
+        }
+
+        public void VerlaagAantal()
+        {
+            Bestelling.Remove(SelectedProduct);
         }
     }
 }

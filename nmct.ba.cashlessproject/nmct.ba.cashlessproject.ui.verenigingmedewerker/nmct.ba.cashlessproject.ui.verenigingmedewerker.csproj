@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Bestelling.cs" />
     <Compile Include="ViewModel\FactuurVM.cs" />
     <Compile Include="ViewModel\IndexVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
@@ -159,9 +160,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\nmct.ba.cashlessproject.model\nmct.ba.cashlessproject.model.csproj">
       <Project>{3c317898-e081-4d3d-88c1-26585a497fd1}</Project>
