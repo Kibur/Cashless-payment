@@ -73,22 +73,33 @@ namespace nmct.ba.cashlessproject.api.Models
             Database.ModifyData(con, sql, par1);
         }
 
-        public static List<Employee> GetEmployeesByRegister(int rId, IEnumerable<Claim> claims)
+        public static List<RegisterEmployee> GetEmployeesByRegister(int rId, IEnumerable<Claim> claims)
         {
-            List<Employee> list = new List<Employee>();
-            List<int> employeeIDs = new List<int>();
+            List<RegisterEmployee> list = new List<RegisterEmployee>();
             
-            string sql = "SELECT EmployeeID FROM Register_Employee WHERE RegisterID=@RegisterID";
+            string sql = "SELECT * FROM Register_Employee WHERE RegisterID=@RegisterID";
             DbParameter par1 = Database.AddParameter("AdminDB", "@RegisterID", rId);
             DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
             while (reader.Read())
             {
-                int employeeID = Convert.ToInt32(reader["EmployeeID"]);
+                RegisterEmployee re = new RegisterEmployee();
 
-                employeeIDs.Add(employeeID);
+                int employeeID = Convert.ToInt32(reader["EmployeeID"]);
+                int from = Convert.ToInt32(reader["From"]);
+                int until = Convert.ToInt32(reader["Until"]);
+
+                Employee e = GetEmployeeById(employeeID);
+
+                re.Register = RegisterDA.GetRegisterById(rId, claims);
+                re.Employee = e;
+                re.From = from;
+                re.Until = until;
+
+                list.Add(re);
             }
 
-            if (employeeIDs.Count > 0)
+            // Normaal gezien niet meer nodig
+            /*if (employeeIDs.Count > 0)
             {
                 sql = "SELECT * FROM Employee WHERE ID=@ID";
 
@@ -109,7 +120,7 @@ namespace nmct.ba.cashlessproject.api.Models
                         list.Add(e);
                     }
                 }
-            }
+            }*/
 
             return list;
         }

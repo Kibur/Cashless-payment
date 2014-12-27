@@ -97,6 +97,7 @@
       <DependentUpon>Accountbeheer.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\converters\StringToImageConverter.cs" />
+    <Compile Include="View\converters\UnixToDateTime.cs" />
     <Compile Include="View\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>

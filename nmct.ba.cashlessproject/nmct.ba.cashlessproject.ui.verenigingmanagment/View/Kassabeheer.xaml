@@ -2,11 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.View.converters"
              mc:Ignorable="d"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <c:UnixToDateTime x:Key="UnixToDateTimeConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -41,6 +45,30 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>
-        <ListBox ItemsSource="{Binding Employees}" DisplayMemberPath="EmployeeName" Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2"/>
+        <ListBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" DisplayMemberPath="EmployeeName" Name="lstBemaning" Grid.Row="6" Grid.Column="1" Margin="5" Grid.RowSpan="2">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <cmd:EventToCommand Command="{Binding GetRegister_EmployeeCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+        <StackPanel Grid.Row="6" Grid.Column="2" Grid.RowSpan="2">
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="ID:"/>
+                <TextBox Text="{Binding SelectedRegister.ID}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="Medewerker:"/>
+                <TextBox Text="{Binding SelectedEmployee.EmployeeName}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="Van:"/>
+                <TextBox Text="{Binding SelectedRegisterEmployee.From, Converter={StaticResource UnixToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Text="Tot:"/>
+                <TextBox Text="{Binding SelectedRegisterEmployee.Until, Converter={StaticResource UnixToDateTimeConverter},UpdateSourceTrigger=PropertyChanged}"/>
+            </WrapPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

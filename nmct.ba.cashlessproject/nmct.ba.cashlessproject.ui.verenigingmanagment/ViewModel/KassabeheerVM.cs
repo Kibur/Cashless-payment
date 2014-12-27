@@ -35,6 +35,38 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             set { _registers = value; OnPropertyChanged("Registers"); }
         }
 
+        private ObservableCollection<RegisterEmployee> _registersEmployees;
+
+        public ObservableCollection<RegisterEmployee> RegistersEmployees
+        {
+            get { return _registersEmployees; }
+            set { _registersEmployees = value; OnPropertyChanged("RegistersEmployees"); }
+        }
+        
+        private Register _selectedRegister;
+
+        public Register SelectedRegister
+        {
+            get { return _selectedRegister; }
+            set { _selectedRegister = value; OnPropertyChanged("SelectedRegister"); }
+        }
+
+        private Employee _selectedEmployee;
+
+        public Employee SelectedEmployee
+        {
+            get { return _selectedEmployee; }
+            set { _selectedEmployee = value; OnPropertyChanged("SelectedEmployee"); }
+        }
+
+        private RegisterEmployee _selectedRegisterEmployee;
+
+        public RegisterEmployee SelectedRegisterEmployee
+        {
+            get { return _selectedRegisterEmployee; }
+            set { _selectedRegisterEmployee = value; OnPropertyChanged("SelectedRegisterEmployee"); }
+        }
+
         private ObservableCollection<Employee> _employees;
 
         public ObservableCollection<Employee> Employees
@@ -43,14 +75,6 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             set { _employees = value; OnPropertyChanged("Employees"); }
         }
         
-
-        private Register _selected;
-
-        public Register SelectedRegister
-        {
-            get { return _selected; }
-            set { _selected = value; OnPropertyChanged("SelectedRegister"); }
-        }
 
         private async void GetRegisters()
         {
@@ -77,7 +101,16 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    Employees = JsonConvert.DeserializeObject<ObservableCollection<Employee>>(json);
+                    RegistersEmployees = JsonConvert.DeserializeObject<ObservableCollection<RegisterEmployee>>(json);
+
+                    ObservableCollection<Employee> employeeList = new ObservableCollection<Employee>();
+
+                    foreach (RegisterEmployee re in RegistersEmployees)
+                    {
+                        employeeList.Add(re.Employee);
+                    }
+
+                    Employees = employeeList;
                 }
             }
         }
@@ -117,6 +150,25 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
         public void GetEmployees()
         {
             GetEmployeesByRegister();
+        }
+
+        public ICommand GetRegister_EmployeeCommand
+        {
+            get { return new RelayCommand(GetRegister_Employee); }
+        }
+
+        public void GetRegister_Employee()
+        {
+            if (SelectedEmployee != null)
+            {
+                foreach (RegisterEmployee re in RegistersEmployees)
+                {
+                    if (SelectedRegister.ID.Equals(re.Register.ID) && SelectedEmployee.ID.Equals(re.Employee.ID))
+                    {
+                        SelectedRegisterEmployee = re;
+                    }
+                }
+            }
         }
     }
 }

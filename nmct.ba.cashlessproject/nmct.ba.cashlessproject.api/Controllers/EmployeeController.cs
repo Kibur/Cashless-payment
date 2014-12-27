@@ -25,7 +25,7 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return EmployeeDA.GetEmployeeById(id);
         }
 
-        public List<Employee> Get(string rID)
+        public List<RegisterEmployee> Get(string rID)
         {
             int id = Convert.ToInt32(rID.Substring(1, rID.Length - 1));
 
