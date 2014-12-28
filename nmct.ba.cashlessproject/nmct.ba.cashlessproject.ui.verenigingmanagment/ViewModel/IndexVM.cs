@@ -19,6 +19,11 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return "Index page"; }
         }
 
+        public string Username
+        {
+            get { return ApplicationVM.username; }
+        }
+
         public IndexVM()
         {
             if (ApplicationVM.token != null)
@@ -137,6 +142,20 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
 
             appvm.ChangePage(new KlantenbeheerVM());
+        }
+
+        public ICommand LogOutCommand
+        {
+            get { return new RelayCommand(LogOut); }
+        }
+
+        public void LogOut()
+        {
+            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+            ApplicationVM.token = null;
+
+            appvm.ChangePage(new LoginVM());
         }
     }
 }

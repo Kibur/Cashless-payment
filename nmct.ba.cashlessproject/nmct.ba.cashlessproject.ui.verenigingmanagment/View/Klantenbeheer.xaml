@@ -26,8 +26,8 @@
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Ingelogd als ..." Grid.Row="0" Grid.Column="0"/>
-        <TextBlock Name="txbAfmelden" Text="Afmelden" Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Text="{Binding Username}" Grid.Row="0" Grid.Column="0"/>
+        <Button Content="Afmelden" Command="{Binding LogOutCommand}" Grid.Row="1" Grid.Column="0"/>
         <TextBlock Text="Vereniging Management" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10"/>
         <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>

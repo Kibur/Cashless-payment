@@ -19,6 +19,11 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return "Klantenbeheer"; }
         }
 
+        public string Username
+        {
+            get { return ApplicationVM.username; }
+        }
+
         private ObservableCollection<Customer> _customers;
 
         public ObservableCollection<Customer> Customers
@@ -128,6 +133,20 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
         public ICommand SaveCustomerCommand
         {
             get { return new RelayCommand(SaveCustomer); }
+        }
+
+        public ICommand LogOutCommand
+        {
+            get { return new RelayCommand(LogOut); }
+        }
+
+        public void LogOut()
+        {
+            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+            ApplicationVM.token = null;
+
+            appvm.ChangePage(new LoginVM());
         }
     }
 }

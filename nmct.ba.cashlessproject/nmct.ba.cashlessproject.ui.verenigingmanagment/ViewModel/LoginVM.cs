@@ -50,6 +50,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
             if (!ApplicationVM.token.IsError)
             {
+                ApplicationVM.username = Username;
                 appvm.ChangePage(new IndexVM());
             }
             else

@@ -19,6 +19,11 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return "Kassabeheer page"; }
         }
 
+        public string Username
+        {
+            get { return ApplicationVM.username; }
+        }
+
         public KassabeheerVM()
         {
             if (ApplicationVM.token != null)
@@ -93,25 +98,33 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         private async void GetEmployeesByRegister()
         {
-            using (HttpClient client = new HttpClient())
+            try
             {
-                client.SetBearerToken(ApplicationVM.token.AccessToken);
-                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/employee?rID=r" + SelectedRegister.ID);
-
-                if (response.IsSuccessStatusCode)
+                using (HttpClient client = new HttpClient())
                 {
-                    string json = await response.Content.ReadAsStringAsync();
-                    RegistersEmployees = JsonConvert.DeserializeObject<ObservableCollection<RegisterEmployee>>(json);
+                    client.SetBearerToken(ApplicationVM.token.AccessToken);
+                    HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/employee?rID=r" + SelectedRegister.ID);
 
-                    ObservableCollection<Employee> employeeList = new ObservableCollection<Employee>();
-
-                    foreach (RegisterEmployee re in RegistersEmployees)
+                    if (response.IsSuccessStatusCode)
                     {
-                        employeeList.Add(re.Employee);
-                    }
+                        string json = await response.Content.ReadAsStringAsync();
+                        RegistersEmployees = JsonConvert.DeserializeObject<ObservableCollection<RegisterEmployee>>(json);
 
-                    Employees = employeeList;
+                        ObservableCollection<Employee> employeeList = new ObservableCollection<Employee>();
+
+                        foreach (RegisterEmployee re in RegistersEmployees)
+                        {
+                            employeeList.Add(re.Employee);
+                        }
+
+                        Employees = employeeList;
+                    }
                 }
+            }
+            catch (NullReferenceException nrex)
+            {
+                // Gebeurt wanneer je één van de listboxes gebruikt en daarna op 'Afmelden' klikt.
+                // Omdat ik de token op null zet. Maar deze exception gebeurt alleen bij Kassabeheer.
             }
         }
 
@@ -169,6 +182,20 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
                     }
                 }
             }
+        }
+
+        public ICommand LogOutCommand
+        {
+            get { return new RelayCommand(LogOut); }
+        }
+
+        public void LogOut()
+        {
+            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+            appvm.ChangePage(new LoginVM());
+
+            ApplicationVM.token = null;
         }
     }
 }

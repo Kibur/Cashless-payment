@@ -19,13 +19,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Command="{Binding TerugCommand}" Name="btnTerug" Content="Terug" Grid.Row="0" Grid.Column="0" Margin="10"/>
-        <TextBlock Text="Ingelogd als ..." Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding Username}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBlock Text="Oud wachtwoord:" Grid.Row="1" Grid.Column="0"/>
         <TextBlock Text="Nieuw wachtwoord:" Grid.Row="2" Grid.Column="0"/>
         <TextBlock Text="Bevestig wachtwoord:" Grid.Row="3" Grid.Column="0"/>
-        <TextBox Name="txtOudWachtwoord" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
-        <TextBox Name="txtNieuwWachtwoord" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
-        <TextBox Name="txtBevestigWachtwoord" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
+        <TextBox Name="txtOudWachtwoord" Text="{Binding OudWachtwoord}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
+        <TextBox Name="txtNieuwWachtwoord" Text="{Binding NieuwWachtwoord}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
+        <TextBox Name="txtBevestigWachtwoord" Text="{Binding BevestigWachtwoord}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="10"/>
         <Button Name="btnOpslaan" Command="{Binding SaveAccountCommand}" Content="Opslaan" Grid.Row="4" Grid.Column="2" Margin="10"/>
     </Grid>
 </UserControl>

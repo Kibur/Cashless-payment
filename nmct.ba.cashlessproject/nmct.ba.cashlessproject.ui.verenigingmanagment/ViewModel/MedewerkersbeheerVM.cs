@@ -19,6 +19,11 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return "Medewerkersbeheer"; }
         }
 
+        public string Username
+        {
+            get { return ApplicationVM.username; }
+        }
+
         private ObservableCollection<Employee> _employees;
 
         public ObservableCollection<Employee> Employees
@@ -34,7 +39,6 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             get { return _selected; }
             set { _selected = value; OnPropertyChanged("SelectedEmployee"); }
         }
-        
 
         public MedewerkersbeheerVM()
         {
@@ -163,6 +167,20 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
         public ICommand SaveEmployeeCommand
         {
             get { return new RelayCommand(SaveEmployee); }
+        }
+
+        public ICommand LogOutCommand
+        {
+            get { return new RelayCommand(LogOut); }
+        }
+
+        public void LogOut()
+        {
+            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+            ApplicationVM.token = null;
+
+            appvm.ChangePage(new LoginVM());
         }
     }
 }
