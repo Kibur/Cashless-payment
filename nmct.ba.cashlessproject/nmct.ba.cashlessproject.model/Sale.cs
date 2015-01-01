@@ -24,28 +24,28 @@ namespace nmct.ba.cashlessproject.model
             set { _timestamp = value; }
         }
 
-        private int _customerid;
+        private Customer _customer;
 
-        public int CustomerID
+        public Customer Customer
         {
-            get { return _customerid; }
-            set { _customerid = value; }
+            get { return _customer; }
+            set { _customer = value; }
         }
 
-        private int _registerid;
+        private Register _register;
 
-        public int RegisterID
+        public Register Register
         {
-            get { return _registerid; }
-            set { _registerid = value; }
+            get { return _register; }
+            set { _register = value; }
         }
 
-        private int _productid;
+        private Product _product;
 
-        public int ProductID
+        public Product Product
         {
-            get { return _productid; }
-            set { _productid = value; }
+            get { return _product; }
+            set { _product = value; }
         }
 
         private int _amount;

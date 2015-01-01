@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using Newtonsoft.Json;
 using nmct.ba.cashlessproject.model;
-using nmct.ba.cashlessproject.ui.verenigingmedewerker.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +17,28 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         public string Name
         {
             get { return "Index"; }
+        }
+
+        public IndexVM(Employee e, Register r)
+        {
+            SelectedEmployee = e;
+            Register = r;
+            GetProducts();
+        }
+
+        public string InlogInfo
+        {
+            get
+            {
+                string info = "Kassa ..., medewerker ...";
+
+                if (Register != null && SelectedEmployee != null)
+                {
+                    info = "Kassa " + Register.RegisterName + ", medewerker " + SelectedEmployee.EmployeeName;
+                }
+
+                return info;
+            }
         }
 
         private ObservableCollection<Product> _products;
@@ -52,12 +73,36 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             set { _customerName = value; OnPropertyChanged("CustomerName"); }
         }
 
-        private ObservableCollection<Bestelling> _bestelling;
+        private ObservableCollection<Sale> _bestelling;
 
-        public ObservableCollection<Bestelling> Bestelling
+        public ObservableCollection<Sale> Bestelling
         {
-            get { return _bestelling; }
+            get
+            {
+                if (_bestelling == null)
+                {
+                    _bestelling = new ObservableCollection<Sale>();
+                }
+
+                return _bestelling;
+            }
             set { _bestelling = value; OnPropertyChanged("Bestelling"); }
+        }
+        
+        private Employee _selectedEmployee;
+
+        public Employee SelectedEmployee
+        {
+            get { return _selectedEmployee; }
+            set { _selectedEmployee = value; OnPropertyChanged("SelectedEmployee"); }
+        }
+
+        private Register _register;
+
+        public Register Register
+        {
+            get { return _register; }
+            set { _register = value; OnPropertyChanged("Register"); }
         }
 
         private int _counter;
@@ -66,12 +111,6 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         {
             get { return _counter; }
             set { _counter = value; OnPropertyChanged("Counter"); }
-        }
-        
-
-        public IndexVM()
-        {
-            GetProducts();
         }
 
         private async void GetProducts()
@@ -119,13 +158,43 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
 
         public void AddProduct()
         {
-            Counter++;
+            if (SelectedProduct != null && Customer != null)
+            {
+                Sale newS = new Sale();
 
-            Bestelling b = new Bestelling();
-            b.Product = SelectedProduct;
-            b.Counter = Counter;
+                newS.Product = SelectedProduct;
+                newS.Register = Register;
+                newS.Customer = Customer;
+                newS.Amount = 1;
+                newS.Timestamp = DateTime.Now;
+                newS.TotalPrice = newS.Product.Price * newS.Amount;
 
-            Bestelling.Add(b);
+                Counter = newS.Amount;
+
+                if (Bestelling.Count > 0)
+                {
+                    bool test = false;
+
+                    foreach (Sale s in Bestelling)
+                    {
+                        if (s.Product.ID == newS.Product.ID)
+                        {
+                            s.Amount = s.Amount + 1;
+                            Counter = s.Amount;
+                            test = true;
+                        }
+                    }
+
+                    if (!test)
+                    {
+                        Bestelling.Add(newS);
+                    }
+                }
+                else
+                {
+                    Bestelling.Add(newS);
+                }
+            }
         }
 
         public ICommand VerlaagAantalCommand
@@ -135,7 +204,23 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
 
         public void VerlaagAantal()
         {
-            Bestelling.Remove(SelectedProduct);
+            if (Bestelling.Count > 0)
+            {
+                foreach (Sale s in Bestelling)
+                {
+                    if (s.Product.ID == SelectedProduct.ID)
+                    {
+                        s.Amount = s.Amount - 1;
+
+                        Counter = s.Amount;
+
+                        if (s.Amount == 0)
+                        {
+                            Bestelling.Remove(s);
+                        }
+                    }
+                }
+            }
         }
     }
 }

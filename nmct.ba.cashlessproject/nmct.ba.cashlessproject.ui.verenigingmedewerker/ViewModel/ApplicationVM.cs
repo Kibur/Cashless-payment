@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using nmct.ba.cashlessproject.model;
 using nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel;
 using System;
 using System.Collections.Generic;

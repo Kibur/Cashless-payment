@@ -36,7 +36,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Kassa ..., medewerker ..." Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="{Binding InlogInfo}" Grid.Row="0" Grid.Column="0"/>
         <TextBlock Name="txbAfmelden" Text="Afmelden" Grid.Row="1" Grid.Column="0"/>
         <Line Height="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Fill="Black"/>
         <TextBlock Text="Klant:" Grid.Row="3" Grid.Column="0"/>

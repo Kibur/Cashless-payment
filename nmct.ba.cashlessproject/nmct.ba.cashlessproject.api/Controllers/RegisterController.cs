@@ -19,6 +19,12 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return RegisterDA.GetRegisters(cp.Claims);
         }
 
+        [AllowAnonymous]
+        public Register Get(int eID)
+        {
+            return RegisterDA.GetRegisterByEmployee(eID);
+        }
+
         public HttpResponseMessage Post(Register r)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;

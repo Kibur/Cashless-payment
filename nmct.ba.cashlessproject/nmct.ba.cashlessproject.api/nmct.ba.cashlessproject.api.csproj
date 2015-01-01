@@ -181,6 +181,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ErrorlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrganisationController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerDA.cs" />
     <Compile Include="Models\EmployeeDA.cs" />
+    <Compile Include="Models\ErrorlogDA.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrganisationDA.cs" />

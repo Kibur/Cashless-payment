@@ -43,7 +43,14 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             get { return _selected; }
             set { _selected = value; OnPropertyChanged("SelectedEmployee"); }
         }
-        
+
+        private Register _register;
+
+        public Register Register
+        {
+            get { return _register; }
+            set { _register = value; OnPropertyChanged("Register"); }
+        }
 
         private async void GetEmployee(int id) {
             using (HttpClient client = new HttpClient())
@@ -58,6 +65,20 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             }
         }
 
+        private async void GetRegisterByEmployee()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/register?eID=" + SelectedEmployee.ID);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    Register = JsonConvert.DeserializeObject<Register>(json);
+                }
+            }
+        }
+
         private void Login()
         {
             ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
@@ -65,7 +86,12 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
 
             if (SelectedEmployee != null)
             {
-                appvm.ChangePage(new IndexVM());
+                GetRegisterByEmployee();
+
+                if (Register != null)
+                {
+                    appvm.ChangePage(new IndexVM(SelectedEmployee, Register));
+                }
             }
             else
             {

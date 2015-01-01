@@ -83,5 +83,32 @@ namespace nmct.ba.cashlessproject.api.Models
 
             return r;
         }
+
+        public static Register GetRegisterByEmployee(int id)
+        {
+            int rID = 0;
+            string sql = "SELECT RegisterID FROM Register_Employee WHERE EmployeeID=@EmployeeID";
+            DbParameter par1 = Database.AddParameter("KlantDB", "@EmployeeID", id);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            reader.Read();
+
+            rID = Convert.ToInt32(reader["RegisterID"]);
+
+            sql = "SELECT * FROM Registers WHERE ID=@ID";
+            par1 = Database.AddParameter("KlantDB", "@ID", rID);
+            reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            Register r = new Register();
+
+            while (reader.Read())
+            {
+                r.ID = rID;
+                r.RegisterName = reader["RegisterName"].ToString();
+                r.Device = reader["Device"].ToString();
+            }
+
+            return r;
+        }
     }
 }
