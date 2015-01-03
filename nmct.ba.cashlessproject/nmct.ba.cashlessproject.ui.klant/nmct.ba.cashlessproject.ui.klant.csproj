@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -83,8 +84,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\Index-Registreer.xaml.cs">
-      <DependentUpon>Index-Registreer.xaml</DependentUpon>
+    <Compile Include="ViewModel\IndexRegisterVM.cs" />
+    <Compile Include="ViewModel\IndexVM.cs" />
+    <Compile Include="ViewModel\OpladenVM.cs" />
+    <Compile Include="ViewModel\RegisterFormVM.cs" />
+    <Compile Include="View\converters\StringToImageConverter.cs" />
+    <Compile Include="View\IndexRegistreer.xaml.cs">
+      <DependentUpon>IndexRegistreer.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
@@ -98,7 +104,7 @@
     <Compile Include="View\PageOne.xaml.cs">
       <DependentUpon>PageOne.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Index-Registreer.xaml">
+    <Page Include="View\IndexRegistreer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -171,6 +177,9 @@
       <Project>{3c317898-e081-4d3d-88c1-26585a497fd1}</Project>
       <Name>nmct.ba.cashlessproject.model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\images\noimage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

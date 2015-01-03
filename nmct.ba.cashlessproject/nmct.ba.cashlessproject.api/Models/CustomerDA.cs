@@ -95,5 +95,28 @@ namespace nmct.ba.cashlessproject.api.Models
 
             return c;
         }
+
+        public static Customer GetCustomerById(int id)
+        {
+            Customer c = new Customer();
+
+            string sql = "SELECT * FROM Customers WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("KlantDB", "@ID", id);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            while (reader.Read())
+            {
+                c.ID = Convert.ToInt32(reader["ID"]);
+                c.CustomerName = reader["CustomerName"].ToString();
+                c.Address = reader["Address"].ToString();
+                if (!DBNull.Value.Equals(reader["Picture"]))
+                    c.Picture = (byte[])reader["Picture"];
+                else
+                    c.Picture = new byte[0];
+                c.Balance = Double.Parse(reader["Balance"].ToString());
+            }
+
+            return c;
+        }
     }
 }

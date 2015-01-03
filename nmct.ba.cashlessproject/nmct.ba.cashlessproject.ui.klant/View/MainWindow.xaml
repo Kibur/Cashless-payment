@@ -8,8 +8,17 @@
         <vm:ApplicationVM/>
     </Window.DataContext>
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vm:PageOneVM}">
-            <v:PageOne/>
+        <DataTemplate DataType="{x:Type vm:IndexVM}">
+            <v:Index/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:IndexRegisterVM}">
+            <v:IndexRegistreer/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:OpladenVM}">
+            <v:Opladen/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RegisterFormVM}">
+            <v:RegistratieFormulier/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

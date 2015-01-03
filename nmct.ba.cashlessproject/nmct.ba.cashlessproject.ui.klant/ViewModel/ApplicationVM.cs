@@ -13,8 +13,7 @@ namespace nmct.ba.cashlessproject.ui.klant.ViewModel
     {
         public ApplicationVM()
         {
-            Pages.Add(new PageOneVM());
-            // Add other pages
+            Pages.Add(new IndexVM());
 
             CurrentPage = Pages[0];
         }
@@ -42,7 +41,7 @@ namespace nmct.ba.cashlessproject.ui.klant.ViewModel
             get { return new RelayCommand<IPage>(ChangePage); }
         }
 
-        private void ChangePage(IPage page)
+        public void ChangePage(IPage page)
         {
             CurrentPage = page;
         }

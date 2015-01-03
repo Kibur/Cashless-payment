@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.View"
         xmlns:vm="clr-namespace:nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel"
-        Title="MainWindow" Height="425" Width="578">
+        Title="MainWindow" Height="500" Width="622">
     <Window.DataContext>
         <vm:ApplicationVM/>
     </Window.DataContext>

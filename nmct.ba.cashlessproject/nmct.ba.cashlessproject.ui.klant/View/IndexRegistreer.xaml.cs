@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace nmct.ba.cashlessproject.View.Klant
+namespace nmct.ba.cashlessproject.ui.klant.View
 {
     /// <summary>
     /// Interaction logic for Index_Registreer.xaml
     /// </summary>
-    public partial class Index_Registreer : UserControl
+    public partial class IndexRegistreer : UserControl
     {
-        public Index_Registreer()
+        public IndexRegistreer()
         {
             InitializeComponent();
         }

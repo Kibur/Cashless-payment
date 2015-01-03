@@ -22,9 +22,17 @@ namespace nmct.ba.cashlessproject.api.Controllers
         [AllowAnonymous]
         public Customer Get(string value)
         {
+            int id = 0;
+
+            if (int.TryParse(value, out id))
+            {
+                return CustomerDA.GetCustomerById(id);
+            }
+
             return CustomerDA.GetCustomerByName(value);
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage Post(Customer c)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
@@ -36,6 +44,7 @@ namespace nmct.ba.cashlessproject.api.Controllers
             return message;
         }
 
+        [AllowAnonymous]
         public HttpResponseMessage Put(Customer c)
         {
             ClaimsPrincipal cp = RequestContext.Principal as ClaimsPrincipal;
