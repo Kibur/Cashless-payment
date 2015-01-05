@@ -21,7 +21,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public string Username
         {
-            get { return ApplicationVM.username; }
+            get { return "Ingelogd als " + ApplicationVM.username; }
         }
 
         public IndexVM()
@@ -29,6 +29,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             if (ApplicationVM.token != null)
             {
                 GetRegisters();
+                GetSales();
             }
         }
 
@@ -40,6 +41,49 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
             set { _registers = value; OnPropertyChanged("Registers"); }
         }
 
+        private ObservableCollection<Sale> _bestellingen;
+
+        public ObservableCollection<Sale> Bestellingen
+        {
+            get { return _bestellingen; }
+            set { _bestellingen = value; OnPropertyChanged("Bestellingen"); }
+        }
+
+        private ObservableCollection<Sale> _bestellingenLaatsteMaand;
+
+        public ObservableCollection<Sale> BestellingenLaatsteMaand
+        {
+            get { return _bestellingenLaatsteMaand; }
+            set { _bestellingenLaatsteMaand = value; OnPropertyChanged("BestellingenLaatsteMaand"); }
+        }
+
+        private DateTime UnixToDateTime(int unixTimestamp)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Local);
+            dtDateTime = dtDateTime.AddSeconds(unixTimestamp).ToLocalTime();
+
+            return dtDateTime;
+        }
+
+        private void FilterLaatsteMaand()
+        {
+            ObservableCollection<Sale> list = new ObservableCollection<Sale>();
+
+            foreach (Sale s in Bestellingen)
+            {
+                int laatsteMaand = DateTime.Now.Month - 1;
+
+                if (laatsteMaand == 0) laatsteMaand = 12;
+
+                if (laatsteMaand == UnixToDateTime(s.Timestamp).Month)
+                {
+                    list.Add(s);
+                }
+            }
+
+            BestellingenLaatsteMaand = list;
+        }
+        
         private async void GetRegisters()
         {
             using (HttpClient client = new HttpClient())
@@ -51,6 +95,23 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     Registers = JsonConvert.DeserializeObject<ObservableCollection<Register>>(json);
+                }
+            }
+        }
+
+        private async void GetSales()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.SetBearerToken(ApplicationVM.token.AccessToken);
+                HttpResponseMessage response = await client.GetAsync("http://localhost:23339/api/sale");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    Bestellingen = JsonConvert.DeserializeObject<ObservableCollection<Sale>>(json);
+
+                    FilterLaatsteMaand();
                 }
             }
         }
@@ -126,7 +187,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
         {
             ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
 
-            appvm.ChangePage(new StatistiekbeheerVM());
+            appvm.ChangePage(new StatistiekbeheerVM(Bestellingen));
         }
 
         public ICommand KlantenbeheerCommand

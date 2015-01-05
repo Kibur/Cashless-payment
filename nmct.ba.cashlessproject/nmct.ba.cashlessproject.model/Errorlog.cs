@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace nmct.ba.cashlessproject.model
 {
-    public class Errorlog
+    public class Errorlog : IDataErrorInfo
     {
         private int _registerid;
 
@@ -18,6 +20,7 @@ namespace nmct.ba.cashlessproject.model
 
         private string _timestamp;
 
+        [Required(ErrorMessage = "Timestamp is verplicht")]
         public string Timestamp
         {
             get { return _timestamp; }
@@ -26,6 +29,7 @@ namespace nmct.ba.cashlessproject.model
 
         private string _message;
 
+        [Required(ErrorMessage = "Message is verplicht")]
         public string Message
         {
             get { return _message; }
@@ -34,6 +38,7 @@ namespace nmct.ba.cashlessproject.model
 
         private string _stacktrace;
 
+        [Required(ErrorMessage = "Stacktrace is verplicht")]
         public string Stacktrace
         {
             get { return _stacktrace; }
@@ -43,6 +48,37 @@ namespace nmct.ba.cashlessproject.model
         public Errorlog()
         {
 
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
+
+        public string Error
+        {
+            get { return "Het object is niet valid"; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+
+                return String.Empty;
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public string Username
         {
-            get { return ApplicationVM.username; }
+            get { return "Ingelogd als " + ApplicationVM.username; }
         }
 
         public ProductbeheerVM()
@@ -95,18 +95,21 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         private async void DeleteProduct()
         {
-            using (HttpClient client = new HttpClient())
+            if (SelectedProduct != null)
             {
-                client.SetBearerToken(ApplicationVM.token.AccessToken);
-                HttpResponseMessage response = await client.DeleteAsync("http://localhost:23339/api/product/" + SelectedProduct.ID);
+                using (HttpClient client = new HttpClient())
+                {
+                    client.SetBearerToken(ApplicationVM.token.AccessToken);
+                    HttpResponseMessage response = await client.DeleteAsync("http://localhost:23339/api/product/" + SelectedProduct.ID);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Delete Product Error");
-                }
-                else
-                {
-                    Products.Remove(SelectedProduct);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("Delete Product Error");
+                    }
+                    else
+                    {
+                        Products.Remove(SelectedProduct);
+                    }
                 }
             }
         }
@@ -115,7 +118,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public Product SelectedProduct
         {
-            get { return _selected; }
+            get { if (_selected == null) _selected = new Product(); return _selected; }
             set { _selected = value; OnPropertyChanged("SelectedProduct"); }
         }
 
@@ -141,7 +144,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public ICommand SaveProductCommand
         {
-            get { return new RelayCommand(SaveProduct); }
+            get { return new RelayCommand(SaveProduct, SelectedProduct.IsValid); }
         }
 
         public ICommand DeleteProductCommand

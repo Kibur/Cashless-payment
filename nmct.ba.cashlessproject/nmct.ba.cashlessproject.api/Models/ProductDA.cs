@@ -65,5 +65,22 @@ namespace nmct.ba.cashlessproject.api.Models
             DbConnection con = Database.GetConnection("KlantDB");
             Database.ModifyData(con, sql, par1);
         }
+
+        public static Product GetProductById(int id)
+        {
+            Product p = new Product();
+
+            string sql = "SELECT * FROM Products WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("AdminDB", "@ID", id);
+            DbDataReader reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+            reader.Read();
+
+            p.ID = Convert.ToInt32(reader["ID"]);
+            p.ProductName = reader["ProductName"].ToString();
+            p.Price = Double.Parse(reader["Price"].ToString());
+
+            return p;
+        }
     }
 }

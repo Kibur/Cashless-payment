@@ -5,6 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder/>
+                </Border>
+                <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+        <Style x:Key="TextboxError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -13,20 +31,20 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="0.3*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Username}" Grid.Row="0" Grid.Column="0"/>
-        <Button Content="Afmelden" Command="{Binding LogOutCommand}" Grid.Row="1" Grid.Column="0"/>
+        <Button Content="Afmelden" Command="{Binding LogOutCommand}" Grid.Row="1" Grid.Column="0" Height="20" Margin="10"/>
         <TextBlock Text="Vereniging Management" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10"/>
+        <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10" Height="20"/>
         <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>
-        <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10" Height="20"/>
         <TextBlock Text="Productbeheer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBlock Text="Producten" Grid.Row="4" Grid.Column="0"/>
         <Grid Grid.Row="4" Grid.Column="2">
@@ -34,22 +52,38 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnToevoegen" Command="{Binding NewProductCommand}" Grid.Column="0" Content="T" Height="20" Width="20"/>
-            <Button Name="btnWijzigen" Grid.Column="1" Content="W" Height="20" Width="20"/>
+            <Button Name="btnToevoegen" Command="{Binding NewProductCommand}" Grid.Column="0" Content="T" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\add.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
-        <TextBox Name="txtZoeken" Height="20" Grid.Row="5" Grid.Column="0" Margin="10"/>
-        <ListBox ItemsSource="{Binding Products}" DisplayMemberPath="ProductName" SelectedItem="{Binding SelectedProduct}" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="2"/>
-        <TextBlock Text="Naam:" Grid.Row="5" Grid.Column="1"/>
-        <TextBox Name="txtProductNaam" Text="{Binding SelectedProduct.ProductName}" Height="20" Margin="10" Grid.Row="5" Grid.Column="2"/>
-        <TextBlock Text="Prijs:" Grid.Row="6" Grid.Column="1"/>
-        <TextBox Name="txtProductPrijs" Text="{Binding SelectedProduct.Price}" Height="20" Margin="10" Grid.Row="6" Grid.Column="2"/>
+        <ListBox ItemsSource="{Binding Products}" DisplayMemberPath="ProductName" SelectedItem="{Binding SelectedProduct}" Grid.Row="5" Grid.Column="0" Margin="5" Grid.RowSpan="3"/>
+        <TextBlock Text="Naam:" Grid.Row="5" Grid.Column="1" Margin="10"/>
+        <TextBox Name="txtProductNaam" Text="{Binding SelectedProduct.ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Height="20" Margin="10" Grid.Row="5" Grid.Column="2"/>
+        <TextBlock Text="Prijs:" Grid.Row="6" Grid.Column="1" Margin="10"/>
+        <TextBox Name="txtProductPrijs" Text="{Binding SelectedProduct.Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Height="20" Margin="10" Grid.Row="6" Grid.Column="2"/>
         <Grid Grid.Row="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnVerwijderen" Command="{Binding DeleteProductCommand}" Grid.Column="0" Content="V" Height="20" Width="20"/>
-            <Button Name="btnOpslaan" Command="{Binding SaveProductCommand}" Grid.Column="1" Content="O" Height="20" Width="20"/>
+            <Button Name="btnVerwijderen" Command="{Binding DeleteProductCommand}" Grid.Column="0" Content="V" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\remove.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="btnOpslaan" Command="{Binding SaveProductCommand}" Grid.Column="1" Content="O" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\save.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

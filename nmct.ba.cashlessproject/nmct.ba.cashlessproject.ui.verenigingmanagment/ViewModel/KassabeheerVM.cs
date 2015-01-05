@@ -21,7 +21,7 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.ViewModel
 
         public string Username
         {
-            get { return ApplicationVM.username; }
+            get { return "Ingelogd als " + ApplicationVM.username; }
         }
 
         public KassabeheerVM()

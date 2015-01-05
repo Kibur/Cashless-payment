@@ -93,22 +93,31 @@ namespace nmct.ba.cashlessproject.api.Models
 
             reader.Read();
 
-            rID = Convert.ToInt32(reader["RegisterID"]);
-
-            sql = "SELECT * FROM Registers WHERE ID=@ID";
-            par1 = Database.AddParameter("KlantDB", "@ID", rID);
-            reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
-
-            Register r = new Register();
-
-            while (reader.Read())
+            try
             {
-                r.ID = rID;
-                r.RegisterName = reader["RegisterName"].ToString();
-                r.Device = reader["Device"].ToString();
+                rID = Convert.ToInt32(reader["RegisterID"]);
+
+                sql = "SELECT * FROM Registers WHERE ID=@ID";
+                par1 = Database.AddParameter("KlantDB", "@ID", rID);
+                reader = Database.GetData(Database.GetConnection("KlantDB"), sql, par1);
+
+                Register r = new Register();
+
+                while (reader.Read())
+                {
+                    r.ID = rID;
+                    r.RegisterName = reader["RegisterName"].ToString();
+                    r.Device = reader["Device"].ToString();
+                }
+
+                return r;
+            }
+            catch (InvalidOperationException)
+            {
+                // Gebeurt wanneer een employee geen toegewezen kassa heeft.
             }
 
-            return r;
+            return null;
         }
     }
 }

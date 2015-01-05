@@ -19,14 +19,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Account:" Grid.Row="0" Grid.Column="0"/>
         <TextBlock Text="Wachtwoord:" Grid.Row="1" Grid.Column="0"/>
         <TextBox Name="txtAccount" Grid.Row="0" Grid.Column="1" Margin="10" Height="20" Text="{Binding Username}"/>
         <TextBox Name="txtWachtwoord" Grid.Row="1" Grid.Column="1" Margin="10" Height="20" Text="{Binding Password}"/>
-        <TextBlock Name="txbVergeten" Text="Wachtwoord vergeten?" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Foreground="Red" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Error}"/>
-        <Button Name="btnAanmelden" Content="Aanmelden" Grid.Row="4" Grid.Column="1" Margin="10" Command="{Binding LoginCommand}"/>
+        <TextBlock Foreground="Red" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Error}"/>
+        <Button Name="btnAanmelden" Content="Aanmelden" Grid.Row="3" Grid.Column="1" Margin="10" Command="{Binding LoginCommand}"/>
     </Grid>
 </UserControl>

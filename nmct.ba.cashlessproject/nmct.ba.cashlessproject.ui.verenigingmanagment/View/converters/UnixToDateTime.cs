@@ -11,10 +11,10 @@ namespace nmct.ba.cashlessproject.ui.verenigingmanagment.View.converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            double unixTimeStamp = (int)value;
+            double unixTimestamp = (int)value;
 
             System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Local);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            dtDateTime = dtDateTime.AddSeconds(unixTimestamp).ToLocalTime();
 
             return dtDateTime.ToString("dd/MM/yyyy HH:mm");
         }

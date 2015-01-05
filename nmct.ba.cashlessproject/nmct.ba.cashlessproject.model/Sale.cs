@@ -16,9 +16,9 @@ namespace nmct.ba.cashlessproject.model
             set { _id = value; }
         }
 
-        private DateTime _timestamp;
+        private int _timestamp;
 
-        public DateTime Timestamp
+        public int Timestamp
         {
             get { return _timestamp; }
             set { _timestamp = value; }

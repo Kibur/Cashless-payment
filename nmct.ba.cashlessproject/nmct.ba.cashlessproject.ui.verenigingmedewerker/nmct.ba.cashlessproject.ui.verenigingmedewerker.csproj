@@ -83,12 +83,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\FactuurVM.cs" />
     <Compile Include="ViewModel\IndexVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
-    <Compile Include="View\Factuur.xaml.cs">
-      <DependentUpon>Factuur.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
@@ -98,10 +94,6 @@
     <Compile Include="View\PageOne.xaml.cs">
       <DependentUpon>PageOne.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Factuur.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Index.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

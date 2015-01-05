@@ -105,12 +105,12 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             set { _register = value; OnPropertyChanged("Register"); }
         }
 
-        private int _counter;
+        private Sale _selectedBestelling;
 
-        public int Counter
+        public Sale SelectedBestelling
         {
-            get { return _counter; }
-            set { _counter = value; OnPropertyChanged("Counter"); }
+            get { return _selectedBestelling; }
+            set { _selectedBestelling = value; OnPropertyChanged("SelectedBestelling"); }
         }
 
         private async void GetProducts()
@@ -141,6 +141,90 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             }
         }
 
+        private async void SaveSales()
+        {
+            try
+            {
+                foreach (Sale s in Bestelling)
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        string input = JsonConvert.SerializeObject(s);
+                        HttpResponseMessage response = await client.PostAsync("http://localhost:23339/api/sale",
+                            new StringContent(input, Encoding.UTF8, "application/json"));
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string output = await response.Content.ReadAsStringAsync();
+
+                            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+                            appvm.ChangePage(new IndexVM(SelectedEmployee, Register));
+                        }
+                        else
+                        {
+                            CreateErrorlog("Save Sale failed", "IndexVM", "SaveSales");
+                        }
+                    }
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // Kan Bestelling collection niet afgaan wanneer de collection een verandering heeft.
+                // Hier versta ik niet echt goed waarom.
+            }
+        }
+
+        private async void InsertErrorlog(Errorlog errlog)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string input = JsonConvert.SerializeObject(errlog);
+                HttpResponseMessage response = await client.PostAsync("http://localhost:23339/api/errorlog",
+                    new StringContent(input, Encoding.UTF8, "application/json"));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string output = await response.Content.ReadAsStringAsync();
+
+                    Console.WriteLine("Errorlog added");
+                }
+                else
+                {
+                    CreateErrorlog("Errorlog insert failed", "IndexVM", "InsertErrorlog");
+                }
+            }
+        }
+
+        private async void UpdateCustomer()
+        {
+            Customer.Balance -= totaal;
+
+            string input = JsonConvert.SerializeObject(Customer);
+
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.PutAsync("http://localhost:23339/api/customer",
+                    new StringContent(input, Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    CreateErrorlog("Update customer failed", "IndexVM", "UpdateCustomer");
+                }
+            }
+        }
+
+        private void CreateErrorlog(string message, string classStacktrace, string methodStacktrace)
+        {
+            Errorlog errlog = new Errorlog();
+            errlog.RegisterID = Register.ID;
+            errlog.Timestamp = DateTimeToUnix(DateTime.Now).ToString();
+            errlog.Message = message;
+            errlog.Stacktrace = "Class: " + classStacktrace + ", Method: " + methodStacktrace;
+
+            InsertErrorlog(errlog);
+        }
+
         public ICommand GetCustomerCommand
         {
             get { return new RelayCommand(GetCustomer); }
@@ -156,6 +240,16 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
             get { return new RelayCommand(AddProduct); }
         }
 
+        private int DateTimeToUnix(DateTime dt)
+        {
+            DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, dt.Kind);
+            int unixTimestamp = Convert.ToInt32((dt - date).TotalSeconds);
+
+            return unixTimestamp;
+        }
+
+        private double totaal = 0;
+
         public void AddProduct()
         {
             if (SelectedProduct != null && Customer != null)
@@ -166,23 +260,35 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
                 newS.Register = Register;
                 newS.Customer = Customer;
                 newS.Amount = 1;
-                newS.Timestamp = DateTime.Now;
+                newS.Timestamp = DateTimeToUnix(DateTime.Now);
                 newS.TotalPrice = newS.Product.Price * newS.Amount;
-
-                Counter = newS.Amount;
 
                 if (Bestelling.Count > 0)
                 {
                     bool test = false;
 
-                    foreach (Sale s in Bestelling)
+                    try
                     {
-                        if (s.Product.ID == newS.Product.ID)
+                        foreach (Sale s in Bestelling)
                         {
-                            s.Amount = s.Amount + 1;
-                            Counter = s.Amount;
-                            test = true;
+                            if (s.Product.ID == newS.Product.ID)
+                            {
+                                newS.Amount = s.Amount + 1;
+                                newS.TotalPrice = newS.Product.Price * newS.Amount;
+
+                                if (!((newS.TotalPrice + totaal) > Customer.Balance))
+                                {
+                                    Bestelling.Remove(s);
+                                    Bestelling.Add(newS);
+                                }
+
+                                test = true;
+                            }
                         }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Kan Bestelling collection niet afgaan wanneer de collection een verandering heeft.
                     }
 
                     if (!test)
@@ -194,6 +300,8 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
                 {
                     Bestelling.Add(newS);
                 }
+
+                totaal += newS.TotalPrice;
             }
         }
 
@@ -206,21 +314,59 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         {
             if (Bestelling.Count > 0)
             {
-                foreach (Sale s in Bestelling)
+                if (SelectedBestelling != null)
                 {
-                    if (s.Product.ID == SelectedProduct.ID)
+                    try
                     {
-                        s.Amount = s.Amount - 1;
+                        Sale newS = SelectedBestelling;
 
-                        Counter = s.Amount;
-
-                        if (s.Amount == 0)
+                        foreach (Sale s in Bestelling)
                         {
-                            Bestelling.Remove(s);
+                            if (s.Product.ID == SelectedBestelling.Product.ID)
+                            {
+                                newS.Amount -= 1;
+                                newS.TotalPrice = newS.Product.Price * newS.Amount;
+
+                                Bestelling.Remove(s);
+
+                                if (s.Amount > 0)
+                                {
+                                    Bestelling.Add(newS);
+                                }
+                            }
                         }
+
+                        totaal -= newS.TotalPrice;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Kan Bestelling collection niet afgaan wanneer de collection een verandering heeft.
                     }
                 }
             }
+        }
+
+        public ICommand LogOffCommand
+        {
+            get { return new RelayCommand(LogOff); }
+        }
+
+        private void LogOff()
+        {
+            ApplicationVM appvm = App.Current.MainWindow.DataContext as ApplicationVM;
+
+            appvm.ChangePage(new LoginVM());
+        }
+
+        public ICommand SaveOrderCommand
+        {
+            get { return new RelayCommand(SaveOrder); }
+        }
+
+        private void SaveOrder()
+        {
+            SaveSales();
+            UpdateCustomer();
         }
     }
 }

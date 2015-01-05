@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
@@ -102,6 +103,50 @@ namespace nmct.ba.cashlessproject.ui.verenigingmedewerker.ViewModel
         public ICommand LoginCommand
         {
             get { return new RelayCommand(Login); }
+        }
+
+        public ICommand AddNumberCommand
+        {
+            get { return new RelayCommand<Button>(AddNumber); }
+        }
+
+        private void AddNumber(Button btn)
+        {
+            string id = ID.ToString() + btn.Content.ToString();
+            int number = 0;
+
+            if (int.TryParse(id, out number))
+            {
+                ID = number;
+            }
+        }
+
+        public ICommand ClearNumbersCommand
+        {
+            get { return new RelayCommand(ClearNumbers); }
+        }
+
+        private void ClearNumbers()
+        {
+            ID = 0;
+        }
+
+        public ICommand RemoveNumberCommand
+        {
+            get { return new RelayCommand(RemoveNumber); }
+        }
+
+        private void RemoveNumber()
+        {
+            string id = ID.ToString();
+            string newID = "0";
+
+            if (id.Length > 1)
+            {
+                newID = id.Remove(id.Length - 1);
+            }
+
+            ID = Convert.ToInt32(newID);
         }
     }
 }

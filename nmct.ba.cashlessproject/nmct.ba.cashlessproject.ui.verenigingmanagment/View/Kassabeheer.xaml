@@ -55,19 +55,19 @@
         <StackPanel Grid.Row="6" Grid.Column="2" Grid.RowSpan="2">
             <WrapPanel Orientation="Horizontal">
                 <TextBlock Text="ID:"/>
-                <TextBox Text="{Binding SelectedRegister.ID}"/>
+                <TextBox Text="{Binding SelectedRegister.ID}" Height="20" Width="100"/>
             </WrapPanel>
             <WrapPanel Orientation="Horizontal">
                 <TextBlock Text="Medewerker:"/>
-                <TextBox Text="{Binding SelectedEmployee.EmployeeName}"/>
+                <TextBox Text="{Binding SelectedEmployee.EmployeeName}" Height="20" Width="100"/>
             </WrapPanel>
             <WrapPanel Orientation="Horizontal">
                 <TextBlock Text="Van:"/>
-                <TextBox Text="{Binding SelectedRegisterEmployee.From, Converter={StaticResource UnixToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding SelectedRegisterEmployee.From, Converter={StaticResource UnixToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}" Height="20" Width="100"/>
             </WrapPanel>
             <WrapPanel Orientation="Horizontal">
                 <TextBlock Text="Tot:"/>
-                <TextBox Text="{Binding SelectedRegisterEmployee.Until, Converter={StaticResource UnixToDateTimeConverter},UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding SelectedRegisterEmployee.Until, Converter={StaticResource UnixToDateTimeConverter},UpdateSourceTrigger=PropertyChanged}" Height="20" Width="100"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

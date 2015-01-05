@@ -4,6 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder/>
+                </Border>
+                <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+        <Style x:Key="TextboxError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,11 +40,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Username}" Grid.Row="0" Grid.Column="0"/>
-        <Button Content="Afmelden" Command="{Binding LogOutCommand}" Grid.Row="1" Grid.Column="0"/>
+        <Button Content="Afmelden" Command="{Binding LogOutCommand}" Grid.Row="1" Grid.Column="0" Margin="10" Height="20"/>
         <TextBlock Text="Vereniging Management" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10"/>
+        <Button Name="btnAccountbeheer" Command="{Binding AccountbeheerCommand}" Content="Accountbeheer" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="10" Height="20"/>
         <Line Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Stroke="Black" StrokeThickness="4"/>
-        <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <Button Name="btnTerug" Command="{Binding TerugCommand}" Content="Terug" Grid.Row="3" Grid.Column="0" Margin="10" Height="20"/>
         <TextBlock Text="Medewerkersbeheer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBlock Text="Medewerkers" Grid.Row="4" Grid.Column="0"/>
         <Grid Grid.Row="4" Grid.Column="2">
@@ -34,11 +52,15 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnToevoegen" Command="{Binding NewEmployeeCommand}" Grid.Column="0" Content="T" Height="20" Width="20"/>
-            <Button Name="btnWijzigen" Grid.Column="1" Content="W" Height="20" Width="20"/>
+            <Button Name="btnToevoegen" Command="{Binding NewEmployeeCommand}" Grid.Column="0" Content="T" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\add.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
-        <TextBox Name="txtZoeken" Height="20" Grid.Row="5" Grid.Column="0" Margin="10"/>
-        <ListBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" DisplayMemberPath="EmployeeName" Grid.Row="6" Grid.Column="0" Margin="5" Grid.RowSpan="3"/>
+        <ListBox ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" DisplayMemberPath="EmployeeName" Grid.Row="5" Grid.Column="0" Margin="5" Grid.RowSpan="4"/>
         <Grid Grid.Row="5" Grid.Column="2" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -51,21 +73,33 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Naam:"/>
-            <TextBox Text="{Binding SelectedEmployee.EmployeeName}" Name="txtMedewerkerNaam" Grid.Row="0" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.EmployeeName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Name="txtMedewerkerNaam" Grid.Row="0" Grid.Column="1" Height="20" Margin="10"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Adres:"/>
-            <TextBox Text="{Binding SelectedEmployee.Address}" Name="txtMedewerkerAdres" Grid.Row="1" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.Address, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Name="txtMedewerkerAdres" Grid.Row="1" Grid.Column="1" Height="20" Margin="10"/>
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:"/>
-            <TextBox Text="{Binding SelectedEmployee.Email}" Name="txtMedewerkerEmail" Grid.Row="2" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Name="txtMedewerkerEmail" Grid.Row="2" Grid.Column="1" Height="20" Margin="10"/>
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Telefoon:"/>
-            <TextBox Text="{Binding SelectedEmployee.Phone}" Name="txtMedewerkerTelefoon" Grid.Row="3" Grid.Column="1" Height="20" Margin="10"/>
+            <TextBox Text="{Binding SelectedEmployee.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Style="{StaticResource TextboxError}" Name="txtMedewerkerTelefoon" Grid.Row="3" Grid.Column="1" Height="20" Margin="10"/>
         </Grid>
         <Grid Grid.Row="8" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnVerwijderen" Command="{Binding DeleteEmployeeCommand}" Grid.Column="0" Content="V" Height="20" Width="20"/>
-            <Button Name="btnOpslaan" Command="{Binding SaveEmployeeCommand}" Grid.Column="1" Content="O" Height="20" Width="20"/>
+            <Button Name="btnVerwijderen" Command="{Binding DeleteEmployeeCommand}" Grid.Column="0" Content="V" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\remove.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="btnOpslaan" Command="{Binding SaveEmployeeCommand}" Grid.Column="1" Content="O" Height="24" Width="24">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\0x0df01d4b\git\Cashless-payment\nmct.ba.cashlessproject\nmct.ba.cashlessproject.ui.verenigingmanagment\View\images\save.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>
